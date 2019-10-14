@@ -25,7 +25,7 @@ var rootCmd = &cobra.Command{
         webServerAddress := os.Getenv("GROWLOG_ACCOUNT_APP_ADDRESS")
 
         // Initialize our application.
-        app := internal.InitAccountsServer(dbHost, dbPort, dbUser, dbPassword, dbName, webServerAddress)
+        app := internal.InitAccountApplication(dbHost, dbPort, dbUser, dbPassword, dbName, webServerAddress)
 
         // DEVELOPERS CODE:
     	// The following code will create an anonymous goroutine which will have a
