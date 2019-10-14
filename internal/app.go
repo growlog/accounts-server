@@ -12,14 +12,14 @@ import (
 	"github.com/growlog/accounts-server/internal/models"
 )
 
-type AccountServer struct {
+type AccountsServer struct {
 	webServerAddress string
 	dal *models.DataAccessLayer
 	grpcServer *grpc.Server
 }
 
 // Function will construct the Mikapod IAM application.
-func InitAccountServer(dbHost, dbPort, dbUser, dbPassword, dbName, webServerAddress string) (*AccountServer) {
+func InitAccountsServer(dbHost, dbPort, dbUser, dbPassword, dbName, webServerAddress string) (*AccountsServer) {
 
 	// Initialize and connect our database layer for the entire application.
     dbInstance := models.InitDataAccessLayer(dbHost, dbPort, dbUser, dbPassword, dbName)
@@ -28,7 +28,7 @@ func InitAccountServer(dbHost, dbPort, dbUser, dbPassword, dbName, webServerAddr
     dbInstance.CreateUserTable(false)
 
 	// Create our application instance.
- 	return &AccountServer{
+ 	return &AccountsServer{
 		webServerAddress: webServerAddress,
 		dal: dbInstance,
 		grpcServer: nil,
@@ -37,7 +37,7 @@ func InitAccountServer(dbHost, dbPort, dbUser, dbPassword, dbName, webServerAddr
 
 // Function will consume the main runtime loop and run the business logic
 // of the Mikapod IAM application.
-func (app *AccountServer) RunMainRuntimeLoop() {
+func (app *AccountsServer) RunMainRuntimeLoop() {
 	// Open a TCP server to the specified localhost and environment variable
     // specified port number.
     lis, err := net.Listen("tcp", app.webServerAddress)
@@ -67,7 +67,7 @@ func (app *AccountServer) RunMainRuntimeLoop() {
 
 // Function will tell the application to stop the main runtime loop when
 // the process has been finished.
-func (app *AccountServer) StopMainRuntimeLoop() {
+func (app *AccountsServer) StopMainRuntimeLoop() {
 	// Finish any RPC communication taking place at the moment before
     // shutting down the gRPC server.
     app.grpcServer.GracefulStop()
